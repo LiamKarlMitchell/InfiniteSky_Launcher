@@ -1,0 +1,5 @@
+{
+    "mongo_db": 'string',
+    "port": 3333,
+    "interface": '0.0.0.0'
+}
