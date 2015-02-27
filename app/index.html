@@ -3,5 +3,68 @@
 <title>Launcher</title>
 <body>
 <h1>Woo</h1>
+
+<script>
+// TODO: Get latest TSX Client release from https://help.github.com/articles/linking-to-releases/
+// Look into having releases in zip https://help.github.com/articles/creating-releases/
+// also where required have a delete.txt file which lists files or directories to delete from data/ before unpacking data dir.
+// see about a way to send info from server in init packet about the previous build/tag it was from.
+// get change notes from github releases page, https://developer.github.com/v3/repos/releases/
+// Should be able to choose to view patch notes of, Server (That you would connect to if its online), InfiniteSky Project, Launcher, TSX Client, translation data, Korean Patch Notes
+// Add an option to keep downloaded patches
+// Add an option to clear downloaded patches
+// track the release version of TSX Client if newer update it
+//
+// PATCH ORDERING
+// Download latest launcher exe first if it is different to current version exit launcher run game. If we use the file name old launcher used it will patch over for us and relaunch the launcher.
+// Download korean patches up to date, split out the exe's > a predetermined patch number into an exe directory. (Latest exe becomes TwelveSky.exe)
+// If exe specified in config is not TwelveSky.exe such as TwelveSky_107.exe TwelveSky_[0-9]+\.exe then  use that exe if it exists in the exe directory.
+// TSX Client
+// Translation Files
+
+// GAME START:
+// if patches are all done
+// Launch exe but set working directory to the Launchers working directory.
+
+// Load native UI library
+var gui = require('nw.gui');
+var fs = require('fs');
+var configFile = '../config.json.dist';
+var config = {};
+
+fs.exists(configFile, function (exists) {
+  if (exists) {
+    config = require(configFile);
+    doPatches();
+  } else {
+    alert('config.json not found.');
+    gui.App.quit();
+  }
+});
+
+var Ping = require('ping-wrapper');
+Ping.configure();
+
+var ping = new Ping('127.0.0.1');
+
+var count = 0;
+ping.on('ping', function(data){
+    console.log('Ping %s: time: %s ms', data.host, data.time);
+    count ++;
+
+    if (count > 10) {
+      ping.stop();
+    }
+});
+
+ping.on('fail', function(data){
+    console.log('Fail', data);
+});
+
+function doPatches() {
+
+}
+
+</script>
 </body>
 </html>
