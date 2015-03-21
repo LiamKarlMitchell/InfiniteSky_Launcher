@@ -29,7 +29,8 @@
 // Load native UI library
 var gui = require('nw.gui');
 var fs = require('fs');
-var configFile = '../config.json.dist';
+var path = require('path');
+var configFile = path.join(process.cwd(),'../config.json');
 var config = {};
 
 fs.exists(configFile, function (exists) {
@@ -37,7 +38,7 @@ fs.exists(configFile, function (exists) {
     config = require(configFile);
     doPatches();
   } else {
-    alert('config.json not found.');
+    alert(configFile+' not found.');
     gui.App.quit();
   }
 });
@@ -65,6 +66,31 @@ function doPatches() {
 
 }
 
+var bgm_path = '../G03_GDATA/D11_WORLDBGM/';
+var songs = [{ id: Z000.BGM, name: 'Server Select' },
+             { id: Z001.BGM, name: 'Draw the sword' },
+             { id: Z002.BGM, name: '' },
+             { id: Z003.BGM, name: '' },
+             { id: Z004.BGM, name: '' },
+             { id: Z005.BGM, name: 'Burn! your soul' },
+             { id: Z006.BGM, name: 'Battlefield' },
+             { id: Z007.BGM, name: 'No easy way out' },
+             { id: Z008.BGM, name: '' },
+             { id: Z011.BGM, name: '' },
+             { id: Z037.BGM, name: 'Enemies on every side' },
+             { id: Z038.BGM, name: '' },
+             { id: Z043.BGM, name: '' },
+             { id: Z055.BGM, name: 'Beoho Mountain' },
+             { id: Z081.BGM, name: '' },
+             { id: Z091.BGM, name: '' },
+             { id: Z143.BGM, name: '' }];
+
 </script>
+
+<audio controls>
+  <source src="../G03_GDATA/D11_WORLDBGM/Z003.BGM" type="audio/ogg">
+  Your browser does not support the audio tag.
+</audio>
+
 </body>
 </html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Twelve Sky Launcher - Infinite Sky</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="js/jquery-1.11.2.min.js"></script>
+</head>
+<body>
+
+  <div class="root">
+  <div class="draggable"></div>
+  <div class="header">
+    <div class="logo"></div>
+    <button class="debug" style="position: absolute; left: 0px; top: 0px; width: 32px; height: 32px;">D</button>
+    <button class="exit">&#10006;</button>
+    <div class="server"><i bubble></i><span class=".server_name">New Zealand</span></div>
+    <div class="session">
+      <span class="info">Logged in as:<span class="name">username</span></span>
+      <button class="logout"><i></i>Logout</button>
+    </div>
+    <ul class="nav">
+      <li class="nav_notes dropdown"><i></i>PATCH NOTES</li>
+      <li class="nav_server"><i></i>SERVER</li>
+      <li class="nav_item_mall"><i></i>ITEM MALL</li>
+      <li class="nav_bug dropdown"><i></i>BUG REPORT</li>
+      <li class="nav_options"><i></i>OPTIONS</li>
+    </ul>
+  </div><!-- header end -->
+  <div class="main">
+    <div class="content_area">
+      <div class="content login">
+        <div class="left">
+          <h1>Login to server</h1>
+        </div>
+        <div class="left">
+          <h1>Register an account</h1>
+        </div>
+      </div>
+    </div>
+  </div><!-- main end -->
+  <div class="social">
+    <button class="facebook"></button>
+    <button class="twitter"></button>
+    <button class="youtube"></button>
+  </div>
+  <div class="footer">
+    <div class="progress">
+      <progress class="first red" value="1337" max="4159"></progress>
+      <progress class="second" value="1337" max="4159"></progress>
+      <div class="filename">Currently patching ninja.baka</div>
+      <div class="status">Please wait, patching...</div>
+      <div class="percent">100/100</div>
+    </div>
+    <button class="launch"><span>LAUNCH GAME</span></button>
+  </div><!-- footer end -->
+</div>
+
+<script>
+
+// TODO: Get latest TSX Client release from https://help.github.com/articles/linking-to-releases/
+// Look into having releases in zip https://help.github.com/articles/creating-releases/
+// also where required have a delete.txt file which lists files or directories to delete from data/ before unpacking data dir.
+// see about a way to send info from server in init packet about the previous build/tag it was from.
+// get change notes from github releases page, https://developer.github.com/v3/repos/releases/
+// Should be able to choose to view patch notes of, Server (That you would connect to if its online), InfiniteSky Project, Launcher, TSX Client, translation data, Korean Patch Notes
+// Add an option to keep downloaded patches
+// Add an option to clear downloaded patches
+// track the release version of TSX Client if newer update it
+//
+// PATCH ORDERING
+// Download latest launcher exe first if it is different to current version exit launcher run game. If we use the file name old launcher used it will patch over for us and relaunch the launcher.
+// Download korean patches up to date, split out the exe's > a predetermined patch number into an exe directory. (Latest exe becomes TwelveSky.exe)
+// If exe specified in config is not TwelveSky.exe such as TwelveSky_107.exe TwelveSky_[0-9]+\.exe then  use that exe if it exists in the exe directory.
+// TSX Client
+// Translation Files
+
+// GAME START:
+// if patches are all done
+// Launch exe but set working directory to the Launchers working directory.
+
+// Load native UI library
+var gui = require('nw.gui');
+var fs = require('fs');
+var path = require('path');
+var child_process = require('child_process');
+
+process.on('uncaughtException',function(exception) {
+  win.show();
+  win.showDevTools();
+});
+
+
+var configFile = path.join(process.cwd(),'../config.json');
+var config = {};
+
+// Get the current window
+var win = gui.Window.get();
+//
+// fs.exists(configFile, function (exists) {
+//   if (exists) {
+//     config = require(configFile);
+//     doPatches();
+//   } else {
+//     alert(configFile+' not found.');
+//     gui.App.quit();
+//   }
+// });
+//
+// var Ping = require('ping-wrapper');
+// Ping.configure();
+//
+// var ping = new Ping('127.0.0.1');
+//
+// var count = 0;
+// ping.on('ping', function(data){
+//     console.log('Ping %s: time: %s ms', data.host, data.time);
+//     count ++;
+//
+//     if (count > 10) {
+//       ping.stop();
+//     }
+// });
+//
+// ping.on('fail', function(data){
+//     console.log('Fail', data);
+// });
+//
+// function doPatches() {
+//
+// }
+
+// var bgm_path = '../G03_GDATA/D11_WORLDBGM/';
+// var songs = [{ id: 'Z000.BGM', name: 'Server Select' },
+//              { id: 'Z001.BGM', name: 'Draw the sword' },
+//              { id: 'Z002.BGM', name: '' },
+//              { id: 'Z003.BGM', name: '' },
+//              { id: 'Z004.BGM', name: '' },
+//              { id: 'Z005.BGM', name: 'Burn! your soul' },
+//              { id: 'Z006.BGM', name: 'Battlefield' },
+//              { id: 'Z007.BGM', name: 'No easy way out' },
+//              { id: 'Z008.BGM', name: '' },
+//              { id: 'Z011.BGM', name: '' },
+//              { id: 'Z037.BGM', name: 'Enemies on every side' },
+//              { id: 'Z038.BGM', name: '' },
+//              { id: 'Z043.BGM', name: '' },
+//              { id: 'Z055.BGM', name: 'Beoho Mountain' },
+//              { id: 'Z081.BGM', name: '' },
+//              { id: 'Z091.BGM', name: '' },
+//              { id: 'Z143.BGM', name: '' }];
+
+
+var username = '';
+var password = '';
+var twelveSkyDirectory = path.join(process.cwd(),'../');
+var launchGameEXEPath = twelveSkyDirectory + 'PrivateServerLauncher.exe';
+
+function btnLaunchGame_Clicked() {
+  username = 'guest1';
+  password = 'guest1';
+  child_process.execFile(launchGameEXEPath, ['alt1games.twelvesky1:/'+username+'/'+password+'/0/18/0/2/1024/768'], { cwd: twelveSkyDirectory });
+}
+
+var $progressBar1 = $('.progress .first');
+var $progressBar2 = $('.progress .second');
+
+function patchingCompleted() {
+  $progressBar1.prop('value', $progressBar1.prop('max'));
+  $progressBar2.prop('value', $progressBar2.prop('max'));
+  $('.launch').removeProp('disabled');
+}
+
+$(document).ready(function(){
+	// Setup buttons
+  $('.debug').click(function() { win.showDevTools(); });
+  $('.exit').click(function() { win.close(); });
+  $('.launch').click(btnLaunchGame_Clicked);
+
+	// Disable start game button untill Launcher finishes patching process.
+	$('.launch').prop('disabled', true);
+
+  win.on('close', function() {
+    this.hide(); // Pretend to be closed already
+    // TODO Stop transfers & let last patch extract?/Dont fuck up their files
+    this.close(true);
+  });
+
+
+var versiondat = '../PRESENTVERSION.DAT';
+var version_string = '';
+// Get Version from games patch version file.
+fs.readFile(versiondat,'utf8', function(err,data){
+	if (err) {
+		alert('Error reading '+versiondat+' please ensure Launcher is in the Twelve Sky directory.');
+		window.close();
+		return;
+	}
+
+  // Get version string.
+	version_string += 'Game Version: ' + Number(data);
+	$('.game_version').text(version_string);
+
+  // TODO: Actually patch the game duh
+  patchingCompleted();
+});
+
+  win.show();
+});
+
+</script>
+
+</body>
+</html>

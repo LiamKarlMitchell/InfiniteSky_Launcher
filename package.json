@@ -1,0 +1,19 @@
+{
+  "name": "nw-demo",
+  "window": {
+    "width": 1024,
+    "height": 700,
+    "show": false,
+    "frame": false,
+    "resizable": false,
+    "toolbar": false
+  },
+  "main": "index.html",
+  "dependencies": {
+    "async": "^0.2.10",
+    "ini": "^1.1.0",
+    "mkpath": "^0.1.0",
+    "ping-wrapper": "0.0.2",
+    "sprintf-js": "0.0.7"
+  }
+}
