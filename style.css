@@ -339,3 +339,47 @@ progress.red::-webkit-progress-value{
     ,rgba(255,255,255,0.16) 70%
     ,rgba(255,255,255,0) 100%);
 }
+
+.username {
+  font-size: 9px;
+}
+ .password {
+  font-size: 9px;
+}
+
+input[type="text"],input[type="password"] {
+  color: #FFFFFF;
+  font-family: Arial;
+  background-color: #333333;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.left {
+  float: left;
+}
+
+
+.account_login_area {
+  width: 49%;
+  padding-left: 5px;
+}
+
+.register_account_area {
+  width: 49%;
+  padding-left: 13px;
+}
+
+.account_login_area:before{
+  content:"";
+  width:2px; height:90%;
+
+    background: linear-gradient(to bottom
+    ,rgba(255,255,255,0) 1%
+    ,rgba(255,255,255,0.3) 40%
+    ,rgba(255,255,255,0.3) 60%
+    ,rgba(255,255,255,0) 99%);
+
+  z-index:50;
+  position:absolute;left:50%;bottom:0px;
+}

@@ -29,14 +29,42 @@
   </div><!-- header end -->
   <div class="main">
     <div class="content_area">
+      
       <div class="content login">
-        <div class="left">
-          <h1>Login to server</h1>
+        <div class="left account_login_area">
+          <h2>Login to server</h2>
+
+
+<form method="post" class="signin" action="#">
+        <fieldset class="textbox">
+          <label class="username">
+           <span><h1>Username</h1></span>
+             <input id="txtUsername" name="Username" value="" type="text">
+          </label>
+        <label class="password">
+         <span><h1>Password</h1></span>
+          <input id="txtPassword" name="password" value="" type="password"> 
+        </label>
+        <p>
+          <a class="forgot" href="#">Forgot your password?</a>
+        </p>
+          <label for="cheackbox_id">Remeber Me</label>
+          <input type="checkbox" name="checkbox" id="checkbox" value="value">
+          <button id="btnLogin"><h2>Login</h2></button>
+        </fieldset>
+        </form>
+
         </div>
-        <div class="left">
-          <h1>Register an account</h1>
+        <div class="left register_account_area">
+          <h2>Register an account</h2>
         </div>
       </div>
+
+
+      <div class="content server_select">
+        <div id="_1" class="server_info"><span class="name"></span><span class="ms">Ping</span></div>
+      </div>
+
     </div>
   </div><!-- main end -->
   <div class="social">
@@ -158,8 +186,6 @@ var password = '';
 var launchGameEXEPath = twelveSkyDirectory + 'PrivateServerLauncher.exe';
 
 function btnLaunchGame_Clicked() {
-  username = 'guest1';
-  password = 'guest1';
   child_process.execFile(launchGameEXEPath, ['alt1games.twelvesky1:/'+username+'/'+password+'/0/18/0/2/1024/768'], { cwd: twelveSkyDirectory });
 }
 
@@ -172,11 +198,54 @@ function patchingCompleted() {
   $('.launch').removeProp('disabled');
 }
 
+
+var Ping = require('ping-wrapper');
+Ping.configure();
+
+function pingServerIP(uuid, ip) {
+  var ping = new Ping(ip);
+
+  var count = 0;
+  var maxCount = 4;
+  ping.on('ping', function(data){
+      console.log('Ping %s %s %s: time: %s ms', uuid, ip, data.host, data.time);
+      count ++;
+
+      var $serverInfo = $('#_'+uuid);
+      $serverInfo.find('.ms').text(data.time);
+
+      if (count > 4) {
+        ping.stop();
+      }
+  });
+
+  ping.on('fail', function(data){
+      if (count > maxCount) {
+        ping.stop();
+      }
+      console.log('Fail', data);
+  });
+}
+
+function login() {
+  debugger;
+  username = $('#txtUsername').val();
+  password = $('#txtPassword').val();
+
+  // TODO: actually login
+  $('.content_area .content').hide();
+  $('.content.patch').show();
+}
+
 $(document).ready(function(){
 	// Setup buttons
   $('.debug').click(function() { win.showDevTools(); });
   $('.exit').click(function() { win.close(); });
   $('.launch').click(btnLaunchGame_Clicked);
+  $('#btnLogin').click(login);
+
+  $('.content_area .content').hide();
+  $('.content.login').show();
 
 	// Disable start game button untill Launcher finishes patching process.
 	$('.launch').prop('disabled', true);
