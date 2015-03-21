@@ -84,6 +84,7 @@ var gui = require('nw.gui');
 var fs = require('fs');
 var path = require('path');
 var child_process = require('child_process');
+var dns = require('dns');
 
 process.on('uncaughtException',function(exception) {
   win.show();
@@ -91,7 +92,9 @@ process.on('uncaughtException',function(exception) {
 });
 
 
-var configFile = path.join(process.cwd(),'../config.json');
+var twelveSkyDirectory = path.join(process.cwd(),'../');
+var configFile = twelveSkyDirectory+'config.json';
+var customServers = twelveSkyDirectory+'custom_servers.json';
 var config = {};
 
 // Get the current window
@@ -152,7 +155,6 @@ var win = gui.Window.get();
 
 var username = '';
 var password = '';
-var twelveSkyDirectory = path.join(process.cwd(),'../');
 var launchGameEXEPath = twelveSkyDirectory + 'PrivateServerLauncher.exe';
 
 function btnLaunchGame_Clicked() {
