@@ -14,7 +14,7 @@
     <div class="logo"></div>
     <button class="debug" style="position: absolute; left: 0px; top: 0px; width: 32px; height: 32px;">D</button>
     <button class="exit">&#10006;</button>
-    <div class="server"><i bubble></i><span class=".server_name">New Zealand</span></div>
+    <div class="server"><i bubble></i><span class="server_name">New Zealand</span></div>
     <div class="session">
       <span class="info">Logged in as:<span class="name">username</span></span>
       <button class="logout"><i></i>Logout</button>
@@ -29,7 +29,7 @@
   </div><!-- header end -->
   <div class="main">
     <div class="content_area">
-      
+
       <div class="content login">
         <div class="left account_login_area">
           <h2>Login to server</h2>
@@ -43,7 +43,7 @@
           </label>
         <label class="password">
          <span><h1>Password</h1></span>
-          <input id="txtPassword" name="password" value="" type="password"> 
+          <input id="txtPassword" name="password" value="" type="password">
         </label>
         <p>
           <a class="forgot" href="#">Forgot your password?</a>
@@ -183,6 +183,7 @@ var win = gui.Window.get();
 
 var username = '';
 var password = '';
+var isLoggedIn = false;
 var launchGameEXEPath = twelveSkyDirectory + 'PrivateServerLauncher.exe';
 
 function btnLaunchGame_Clicked() {
@@ -192,10 +193,15 @@ function btnLaunchGame_Clicked() {
 var $progressBar1 = $('.progress .first');
 var $progressBar2 = $('.progress .second');
 
+var isFinishedPatching = false;
 function patchingCompleted() {
   $progressBar1.prop('value', $progressBar1.prop('max'));
   $progressBar2.prop('value', $progressBar2.prop('max'));
-  $('.launch').removeProp('disabled');
+
+  isFinishedPatching = true;
+  if (isLoggedIn) {
+    $('.launch').removeProp('disabled');
+  }
 }
 
 
@@ -227,10 +233,32 @@ function pingServerIP(uuid, ip) {
   });
 }
 
-function login() {
-  debugger;
+function login(event) {
+  event.preventDefault();
+
+  $('.launch').prop('disabled', true);
+
   username = $('#txtUsername').val();
   password = $('#txtPassword').val();
+
+  if (username == '') {
+    alert('Please enter a username.');
+    $('#txtUsername').focus();
+    return;
+  }
+
+  if (password == '') {
+    alert('Please enter a password.');
+    $('#txtPassword').focus();
+    return;
+  }
+
+  $('.info .name').text(username);
+  isLoggedIn = true;
+
+  if (isFinishedPatching) {
+    $('.launch').removeProp('disabled');
+  }
 
   // TODO: actually login
   $('.content_area .content').hide();
@@ -243,6 +271,7 @@ $(document).ready(function(){
   $('.exit').click(function() { win.close(); });
   $('.launch').click(btnLaunchGame_Clicked);
   $('#btnLogin').click(login);
+  $('#signin').submit(login);
 
   $('.content_area .content').hide();
   $('.content.login').show();
