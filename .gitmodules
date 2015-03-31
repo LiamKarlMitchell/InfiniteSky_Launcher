@@ -1,0 +1,6 @@
+[submodule "node_modules/nodeinjector"]
+	path = node_modules/nodeinjector
+	url = https://github.com/LiamKarlMitchell/nodeinjector
+[submodule "node_modules/node-ping-wrapper"]
+	path = node_modules/node-ping-wrapper
+	url = https://github.com/LiamKarlMitchell/node-ping-wrapper
