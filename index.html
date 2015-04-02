@@ -85,6 +85,14 @@
 </div>
 
 <script>
+// Load native UI library
+var gui = require('nw.gui');
+// Get the current window
+var win = gui.Window.get();
+process.on('uncaughtException',function(exception) {
+  win.show();
+  win.showDevTools();
+});
 
 // TODO: Get latest TSX Client release from https://help.github.com/articles/linking-to-releases/
 // Look into having releases in zip https://help.github.com/articles/creating-releases/
@@ -107,17 +115,13 @@
 // if patches are all done
 // Launch exe but set working directory to the Launchers working directory.
 
-// Load native UI library
-var gui = require('nw.gui');
+
 var fs = require('fs');
 var path = require('path');
 var child_process = require('child_process');
 var dns = require('dns');
+var injector = require("nodeinjector");
 
-process.on('uncaughtException',function(exception) {
-  win.show();
-  win.showDevTools();
-});
 
 
 var twelveSkyDirectory = path.join(process.cwd(),'../');
@@ -125,8 +129,7 @@ var configFile = twelveSkyDirectory+'config.json';
 var customServers = twelveSkyDirectory+'custom_servers.json';
 var config = {};
 
-// Get the current window
-var win = gui.Window.get();
+
 //
 // fs.exists(configFile, function (exists) {
 //   if (exists) {
@@ -187,7 +190,22 @@ var isLoggedIn = false;
 var launchGameEXEPath = twelveSkyDirectory + 'PrivateServerLauncher.exe';
 
 function btnLaunchGame_Clicked() {
-  child_process.execFile(launchGameEXEPath, ['alt1games.twelvesky1:/'+username+'/'+password+'/0/18/0/2/1024/768'], { cwd: twelveSkyDirectory });
+  //child_process.execFile(launchGameEXEPath, ['alt1games.twelvesky1:/'+username+'/'+password+'/0/18/0/2/1024/768'], { cwd: twelveSkyDirectory });
+   // Remember if a file path has \ then use \\
+  var current_directory = process.cwd()
+  try {
+    process.chdir("../");
+    if (injector.executeInject("TwelveSky.exe alt1games.twelvesky1:/"+username+"/"+password+"/0/18/0/2/1024/768","TSX_Client.dll")) {
+    console.log('Process started and injected.');
+    } else {
+    console.log('Unable to execute and inject dll.');
+    }
+  } catch (err) {
+    console.error('Exception Thrown!');
+    console.error(err);
+  }
+  process.chdir(current_directory)
+
 }
 
 var $progressBar1 = $('.progress .first');
