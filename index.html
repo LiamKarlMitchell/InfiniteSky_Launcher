@@ -189,9 +189,25 @@ var password = '';
 var isLoggedIn = false;
 var launchGameEXEPath = twelveSkyDirectory + 'PrivateServerLauncher.exe';
 
+function handle_rememberme() {
+    if ($('#rememberme').is(':checked')) {
+      localStorage.username = $('#txtUsername').val();
+  } else {
+     delete localStorage.username;
+  }
+};
+
+$('#rememberme').change(handle_rememberme);
+
+if (localStorage.username) {
+  username = localStorage.username;
+  $('#txtUsername').val(username);
+}
+
 function btnLaunchGame_Clicked() {
   //child_process.execFile(launchGameEXEPath, ['alt1games.twelvesky1:/'+username+'/'+password+'/0/18/0/2/1024/768'], { cwd: twelveSkyDirectory });
    // Remember if a file path has \ then use \\
+  handle_rememberme();
   var current_directory = process.cwd()
   try {
     process.chdir("../");
