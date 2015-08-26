@@ -5,6 +5,7 @@
   <title>Twelve Sky Launcher - Infinite Sky</title>
   <link rel="stylesheet" href="style.css">
   <script src="js/jquery-1.11.2.min.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
 
@@ -13,17 +14,30 @@
   <div class="header">
     <div class="logo"></div>
     <button class="debug" style="position: absolute; left: 0px; top: 0px; width: 32px; height: 32px;">D</button>
-    <button class="exit">&#10006;</button>
+    <button id="btnMinimize" class="minimize">&#45;</button>
+    <button id="btnClose" class="exit">&#10006;</button>
     <div class="server"><i bubble></i><span class="server_name">New Zealand</span></div>
     <div class="session">
       <span class="info">Logged in as:<span class="name">username</span></span>
       <button class="logout"><i></i>Logout</button>
     </div>
     <ul class="nav">
-      <li class="nav_notes dropdown"><i></i>PATCH NOTES</li>
+      <li class="nav_notes dropdown"><i></i>PATCH NOTES
+      		<ul>
+      			<li>Game (Kr)</li>
+      			<li>DLL</li>
+      			<li>Launcher</li>
+      		</ul>
+      </li>
       <li class="nav_server"><i></i>SERVER</li>
       <li class="nav_item_mall"><i></i>ITEM MALL</li>
-      <li class="nav_bug dropdown"><i></i>BUG REPORT</li>
+      <li class="nav_bug dropdown"><i></i>BUG REPORT
+      <ul>
+        <li>Game bug</li>
+        <li>Launcher bug</li>
+        <li id="btnTranslation">Translation bug</li>
+      </ul>
+      </li>
       <li class="nav_options"><i></i>OPTIONS</li>
     </ul>
   </div><!-- header end -->
@@ -33,44 +47,71 @@
       <div class="content login">
         <div class="left account_login_area">
           <h2>Login to server</h2>
-
-
-<form method="post" class="signin" action="#">
-        <fieldset class="textbox">
-          <label class="username">
-           <span><h1>Username</h1></span>
-             <input id="txtUsername" name="Username" value="" type="text">
-          </label>
-        <label class="password">
-         <span><h1>Password</h1></span>
-          <input id="txtPassword" name="password" value="" type="password">
-        </label>
-        <p>
-          <a class="forgot" href="#">Forgot your password?</a>
-        </p>
-          <label for="cheackbox_id">Remeber Me</label>
-          <input type="checkbox" name="checkbox" id="checkbox" value="value">
-          <button id="btnLogin"><h2>Login</h2></button>
-        </fieldset>
-        </form>
+            <form method="post" class="signin" action="#">
+              <fieldset class="textbox">
+                <label class="username">
+                 <span><h1>Username</h1></span>
+                   <input id="txtUsername" name="Username" value="" type="text">
+                </label>
+                <label class="password">
+                 <span><h1>Password</h1></span>
+                  <input id="txtPassword" name="password" value="" type="password">
+                </label>
+                <p>
+                  <a class="forgot" href="#">Forgot your password?</a>
+                </p>
+                <label for="cheackbox_id">Remeber Me</label>
+                <input type="checkbox" name="checkbox" id="checkbox" value="value">
+                <button id="btnLogin"><h2>Login</h2></button>
+              </fieldset>
+            </form>
 
         </div>
         <div class="left register_account_area">
           <h2>Register an account</h2>
+            
         </div>
       </div>
 
-
-      <div class="content server_select">
-        <div id="_1" class="server_info"><span class="name"></span><span class="ms">Ping</span></div>
+      <div class="content patch_notes display_none">
+        <div class="patch_notes_kr display_none">
+          here comes korea patch notes
+        </div>
+        <div class="patch_notes_dll display_none">
+          here come dll patch notes
+        </div>
+        <div class="patch_notes_launcher display_none">
+          here comes laucnher patch notes
+        </div>
+      </div>
+      <div class="content server_select display_none">
+        <div>
+          
+        </div>
+        <div id="_1" class="server_info">
+        Here comes server
+        <span class="name"></span><span class="ms">Ping</span>
+        </div>
       </div>
 
+      <div class="content item_mall display_none">
+        here comes item mall
+      </div>
+
+      <div class="content bug_report display_none">
+        <div class="bug_report_game display_none">game_report</div>
+        <div class="bug_report_launcher display_none">launcher_report</div>
+      </div>
+
+      <div class="content settings display_none">
+        here comes settings
+      </div>
     </div>
   </div><!-- main end -->
   <div class="social">
-    <button class="facebook"></button>
+    <button id="btnFacebook" class="facebook"></button>
     <button class="twitter"></button>
-    <button class="youtube"></button>
+    <button id="btnYoutube"class="youtube"></button>
   </div>
   <div class="footer">
     <div class="progress">

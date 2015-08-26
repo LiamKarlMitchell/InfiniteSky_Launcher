@@ -9,9 +9,17 @@ html,body{
   padding:0px;margin:0px;
   background:#1a1a1a;
 }
-a:hover,button:hover,li:hover,.server:hover{
-  opacity:0.76; cursor:pointer;
+a:hover,button:hover,.nav li:hover,.server:hover{
+    color: #E0E0E0!important;
+    cursor: pointer;
+    z-index: 9999;
 }
+
+.nav li:hover > ul{
+  display: block;
+  
+}
+
 *{
   color:#fff;
   border:none;
@@ -31,6 +39,15 @@ button{
   -webkit-text-stroke: 1px rgba(255,255,255,0.5);
   position:absolute;right:6px;top:6px;
   line-height:22px;
+}
+
+.minimize{
+    font-size: 77px;
+    color: #000;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.5);
+    position: absolute;
+    right: 36px;
+    top: -39px;
 }
 
 .root{
@@ -127,15 +144,18 @@ i[bubble][status='offline']{
   padding:0px;margin:0px;
   width:100%;
 }
-.header .nav li{
-  width:204px;
-  height:46px;
-  line-height:45px;
-  list-style:none;
-  float:left;
-  font-size:19px;color:#919191;
-  text-align:center;
-  position:relative;
+.header .nav li {
+    width: 204px;
+    height: 46px;
+    line-height: 45px;
+    list-style: none;
+    border-bottom: 1px solid #919191;
+    border-top: 1px solid #919191;
+    float: left;
+    font-size: 19px;
+    color: #919191;
+    text-align: center;
+    position: relative;
 }
 
 .header .nav li:not(:last-child):before{
@@ -243,6 +263,10 @@ button.youtube{background:url(img/tsx_youtube.png);}
   font-size:20px;
   box-shadow:0px 0px 3px 6px rgba(0,0,0,0.6);
 }
+.launch:hover{
+  opacity: 0.70;
+}
+
 .launch span{
   font-family:'Typograph';
   background: -webkit-linear-gradient(#e4efff, #555);
@@ -383,3 +407,28 @@ input[type="text"],input[type="password"] {
   z-index:50;
   position:absolute;left:50%;bottom:0px;
 }
+
+.dropdown ul {
+    margin-top: 2px;
+    border: solid 1px #919191;
+    border-top: none;
+    padding: 0;
+    width: 204px;
+    z-index: 999;
+    display: none;
+    background-color: #242424;
+    position: absolute;
+}
+
+.dropdown ul li{
+  border: none!important;
+}
+
+.dropdown li:hover {
+    color: red!important;
+}
+
+.display_none{
+  display: none;
+}
+
